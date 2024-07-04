@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tweeter</title>
+    <link href="./style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="main">
+      <h1>Tweeter</h1>
+      <div class="max-width">
+        <form>
+          <label for="message-input">Write you message here</label>
+          <textarea id="message-input" name="message"></textarea>
+          <button class="submit-button">Post</button>
+        </form>
+        <p class="validation">meddelandet får inte innehålla mer än 140 tecken!</p>
+      </div>
+      <div class="line"></div>
+      <div class="messages"></div>
+    </div>
+    <script src="./script.js" defer></script>
+  </body>
+</html>
