@@ -1,5 +1,5 @@
 import express from "express";
-import postSchema from "../models/post.js";
+import postModel from "../models/post.js";
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
   const hours = String(currentDate.getHours()).padStart(2, "0");
   const minutes = String(currentDate.getMinutes()).padStart(2, "0");
   const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
-  const post = new postSchema({
+  const post = new postModel({
     writer: "John Doe",
     content: content,
     date: formattedDate,
@@ -35,7 +35,7 @@ router.patch("/:id", async (req, res) => {
     return res.status(400).send('Bad Request: Missing parameter');
   }
   try {
-    await postSchema.updateOne({ _id: req.params.id }, { $set: { isRead: isRead } });
+    await postModel.updateOne({ _id: req.params.id }, { $set: { isRead: isRead } });
     res.status(200).json({ message: "Post updated successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -44,20 +44,17 @@ router.patch("/:id", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
-  if (!id) {
-    return res.status(400).send("Bad Request: Missing post's id");
-  }
   try {
-    const post = await postSchema.findById(id);
+    const post = await postModel.findById(id);
     res.status(200).json(post);
   } catch (err) {
-    res.json({ message: err });
+    res.status(400).json({ message: err });
   }
 });
 
 router.get("/", async (req, res) => {
   try {
-    const posts = await postSchema.find();
+    const posts = await postModel.find();
     res.status(200).json(posts);
   } catch (err) {
     res.json({ message: err });
@@ -66,7 +63,7 @@ router.get("/", async (req, res) => {
 
 router.delete("/delete", async (req, res) => {
   try {
-    await postSchema.deleteMany();
+    await postModel.deleteMany();
     res.status(200).json({ message: "Posts deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
