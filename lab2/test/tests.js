@@ -60,37 +60,64 @@ describe("Post Routes", () => {
   });
 
   describe("PATCH /:id", () => {
-    it("should update the post's isRead status", async () => {
-      const post = new postSchema({
-        writer: "John Doe",
-        content: "Test content",
-        date: new Date(),
-        isRead: false,
-      });
-      await post.save();
-      const res = await chai.request
-        .execute(server)
-        .patch(`/posts/${post._id}`)
-        .send({ isRead: true });
+    describe("A working request", () => {
+      it("should update the post's isRead status", async () => {
+        const post = new postSchema({
+          writer: "John Doe",
+          content: "Test content",
+          date: new Date(),
+          isRead: false,
+        });
+        await post.save();
+        const res = await chai.request
+          .execute(server)
+          .patch(`/posts/${post._id}`)
+          .send({ isRead: true });
 
-      expect(res).to.have.status(200);
-      const updatedPost = await postSchema.findById(post._id);
-      expect(updatedPost).to.have.property("isRead", true);
+        expect(res).to.have.status(200);
+        const updatedPost = await postSchema.findById(post._id);
+        expect(updatedPost).to.have.property("isRead", true);
+      });
+    });
+    describe("A not working request", () => {
+      it("should return 400 it does not send any json data 'isRead' is required", async () => {
+        const post = new postSchema({
+          writer: "John Doe",
+          content: "Test content",
+          date: new Date(),
+          isRead: false,
+        });
+        await post.save();
+        const res = await chai.request.execute(server).patch(`/posts/${post._id}`).send();
+
+        expect(res).to.have.status(400);
+        const updatedPost = await postSchema.findById(post._id);
+        expect(updatedPost).to.have.property("isRead", false);
+      });
     });
   });
 
   describe("GET /:id", () => {
-    it("should get a post by id", async () => {
-      const post = new postSchema({
-        writer: "John Doe",
-        content: "Test content",
-        date: new Date(),
-      });
-      await post.save();
-      const res = await chai.request.execute(server).get(`/posts/${post._id}`);
+    describe("A working request", () => {
+      it("should get a post by id", async () => {
+        const post = new postSchema({
+          writer: "John Doe",
+          content: "Test content",
+          date: new Date(),
+        });
+        await post.save();
+        const res = await chai.request.execute(server).get(`/posts/${post._id}`);
 
-      expect(res).to.have.status(200);
-      expect(res.body).to.have.property("content", "Test content");
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property("content", "Test content");
+      });
+    });
+
+    describe("A not-working request", () => {
+      it("should return 400 becuase the post is not in the database", async () => {
+        const res = await chai.request.execute(server).get(`/posts/${"kjf"}`);
+        expect(res).to.have.status(400);
+      });
     });
   });
 
