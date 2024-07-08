@@ -20,6 +20,34 @@ const startServer = async () => {
   db.on("error", (error) => console.error("DB connection error:", error));
   db.once("open", () => console.log("DB connection open"));
 
+  // // Middleware to enable CORS for specific origins
+  // app.use((req, res, next) => {
+  //   const allowedOrigins = ['https://example.com', 'https://anotherdomain.com']; // use * to allow all origins
+  //   const origin = req.headers.origin;
+  //
+  //   if (allowedOrigins.includes(origin)) {
+  //     res.header('Access-Control-Allow-Origin', origin); // Allow specific origin
+  //   }
+  //
+  //   res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS'); // Allow specific methods
+  //   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allow specific headers
+  //
+  //   // Handle preflight requests
+  //   if (req.method === 'OPTIONS') {
+  //     res.sendStatus(204); // No Content
+  //   }
+  //   next();
+  // });
+  //
+  // // the same can be done using the cors package
+  // import cors from 'cors';
+  // app.use(cors({
+  //   origin: '*',
+  //   methods: 'GET,POST,PUT,DELETE,OPTIONS',
+  //   allowedHeaders: 'Content-Type, Authorization',
+  //   optionsSuccessStatus: 204
+  // }));
+
   app.use(express.json());
 
   const postsRouter = await import("./routes/posts.js");
