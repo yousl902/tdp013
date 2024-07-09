@@ -1,0 +1,28 @@
+{
+  "name": "lab3",
+  "version": "1.0.0",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "mocha --exit",
+    "coverage": "c8 --reporter=text npm test"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "chai": "^5.1.1",
+    "chai-http": "^5.0.0",
+    "express": "^4.19.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "mocha": "^10.6.0",
+    "mongoose": "^8.4.5"
+  },
+  "type": "module",
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
