@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
 
 router.patch("/:id", async (req, res) => {
   const isRead = req.body.isRead;
-  if (!isRead) {
+  if (isRead === undefined) {
     return res.status(400).send('Bad Request: Missing parameter');
   }
   try {
