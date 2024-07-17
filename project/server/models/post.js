@@ -13,17 +13,17 @@ const postSchema = new mongoose.Schema({
   },
   content: {
     type: String,
-    required: true,
+    // required: true,
     maxLength: 140,
   },
   date: {
     type: String,
-    required: true,
+    // required: true,
     default: Date.now,
   },
   seenBy: {
-    type: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    required: true,
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    // required: true,
     default: [],
   },
 });

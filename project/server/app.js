@@ -23,7 +23,7 @@ const app = express();
 app.use(express.static('../public'))
 app.use(express.static('../src'))
 app.use(express.json());
-// app.use(cors());
+app.use(cors());
 
 const postsRouter = await import("./routes/posts.js");
 const usersRouter = await import("./routes/users.js");

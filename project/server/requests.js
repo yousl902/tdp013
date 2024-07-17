@@ -1,13 +1,26 @@
 import superagent from 'superagent';
-const baseUrl = "http://localhost:3000";
 
+const baseUrl = "http://localhost:5080";
 
 // callback
+// superagent
+//   .post(`${baseUrl}/api/users/signup`)
+//   .send({ username: 'Manny', name: 'Manny', password: 'cat' }) // sends a JSON post body
+//   .end((err, res) => {
+//     if (err) {
+//       console.error(err);
+//     } else {
+//       console.log(res.text);
+//     }
+//   });
+
 superagent
-  .post('http://localhost:3000/api/pet')
-  .send({ name: 'Manny', species: 'cat' }) // sends a JSON post body
-  .set('X-API-Key', 'foobar')
-  .set('accept', 'json')
+  .post(`${baseUrl}/api/users/login`)
+  .send({ username: 'Manny', password: 'cat' }) // sends a JSON post body
   .end((err, res) => {
-    // Calling the end function will send the request
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(res.text);
+    }
   });
